@@ -12,7 +12,7 @@ export class Tab1Page {
 
   //I only did reroute to tab 3 as a place holder
   nextpage() {
-    this.route.navigate(['/tabs/tab3']);
+    this.route.navigate(['/tabs/tab2']);
   }
 
 }

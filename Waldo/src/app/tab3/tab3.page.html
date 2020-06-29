@@ -13,5 +13,38 @@
     </ion-toolbar>
   </ion-header>
 
-  <app-explore-container name="Tab 3 page"></app-explore-container>
+  <!--This entire form function was copied from Ion framework and 
+    needs to be adjusted and better understood-->
+ 
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="firstName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="lastName"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Address</ion-label>
+        <ion-input placeholder="Address Line 1"></ion-input>
+        <ion-input placeholder="Address Line 2"></ion-input>
+        <ion-input placeholder="City"></ion-input>
+        <ion-input placeholder="State"></ion-input>
+        <ion-input placeholder="Zip Code"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Notes</ion-label>
+        <ion-textarea></ion-textarea>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin"
+        (click)="processForm()">Create account</ion-button>
+    </div>
+ 
 </ion-content>
