@@ -9,6 +9,7 @@ import { StatusBar } from '@ionic-native/status-bar/ngx';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 
+//added the import statements for Google Maps
 import { GoogleMaps } from '@ionic-native/google-maps';
 
 @NgModule({
@@ -19,7 +20,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
     StatusBar,
     SplashScreen,
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy },
-    GoogleMaps
+    GoogleMaps //Added the google maps into the NgModule
   ],
   bootstrap: [AppComponent]
 })
