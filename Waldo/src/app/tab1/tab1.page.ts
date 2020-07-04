@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
-import { GoogleMaps, GoogleMapsEvent, LatLng, MarkerOptions, Marker } from "@ionic-native/google-maps";
 import { Router } from '@angular/router';
-import { Platform } from '@ionic/angular';
+import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
+import { Component, ViewChild, ElementRef } from '@angular/core';
+
+declare var google;
  
 @Component({
   selector: 'app-tab1',
@@ -10,29 +12,87 @@ import { Platform } from '@ionic/angular';
 })
 export class Tab1Page {
 
-  constructor(private route: Router, public platform: Platform) { }
+	@ViewChild('map', { static: false }) mapElement: ElementRef;
+  map: any;
+  address: string;
+
+  latitude: number;
+  longitude: number;
+
+  constructor(private route: Router, 
+	private geolocation: Geolocation,
+	private nativeGeocoder: NativeGeocoder) {
+
+  }
 
   //I only did reroute to tab 3 as a place holder
+  //do you mean tab 2 lol
   nextpage() {
     this.route.navigate(['/tabs/tab2']);
   }
 
   /* Only instantiate the map AFTER the view is initialized and the DOM is accessible */
-	ngAfterViewInit() {
-		this.platform.ready().then(() => this.loadMap());
-	}
+	ngOnInit() {
+    this.loadMap();
+  }
 
+  loadMap() {
+    this.geolocation.getCurrentPosition().then((resp) => {
 
-	loadMap() {
-		/* The create() function will take the ID of your map element */
-		const map = GoogleMaps.create('map');
+      this.latitude = resp.coords.latitude;
+      this.longitude = resp.coords.longitude;
 
-		map.one( GoogleMapsEvent.MAP_READY ).then((data: any) => {
-			const coordinates: LatLng = new LatLng(41, -87);
+      let latLng = new google.maps.LatLng(resp.coords.latitude, resp.coords.longitude);
+      let mapOptions = {
+        center: latLng,
+        zoom: 15,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
 
-			map.setCameraTarget(coordinates);
-			map.setCameraZoom(8);
-		});
-	}
+      this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
+
+      this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+
+      this.map.addListener('dragend', () => {
+
+        this.latitude = this.map.center.lat();
+        this.longitude = this.map.center.lng();
+
+        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
+      });
+
+    }).catch((error) => {
+      console.log('Error getting location', error);
+    });
+  }
+
+  getAddressFromCoords(lattitude, longitude) {
+    console.log("getAddressFromCoords " + lattitude + " " + longitude);
+    let options: NativeGeocoderOptions = {
+      useLocale: true,
+      maxResults: 5
+    };
+
+    this.nativeGeocoder.reverseGeocode(lattitude, longitude, options)
+      .then((result: NativeGeocoderResult[]) => {
+        this.address = "";
+        let responseAddress = [];
+        for (let [key, value] of Object.entries(result[0])) {
+          if (value.length > 0)
+            responseAddress.push(value);
+
+        }
+        responseAddress.reverse();
+        for (let value of responseAddress) {
+          this.address += value + ", ";
+        }
+        this.address = this.address.slice(0, -2);
+      })
+      .catch((error: any) => {
+        this.address = "Address Not Available!";
+      });
+
+  }
+
 
 }
