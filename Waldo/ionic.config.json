@@ -1,7 +1,8 @@
 {
   "name": "Waldo",
   "integrations": {
-    "cordova": {}
+    "cordova": {},
+    "capacitor": {}
   },
   "type": "angular"
 }

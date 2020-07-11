@@ -1,0 +1,28 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+  <access origin="*" />
+  
+  <feature name="Geolocation">
+    <param name="ios-package" value="CDVLocation"/>
+  </feature>
+
+  <feature name="NativeGeocoder">
+    <param name="ios-package" value="NativeGeocoder"/>
+  </feature>
+
+  <feature name="Device">
+    <param name="ios-package" value="CDVDevice"/>
+  </feature>
+
+  
+  <preference name="ScrollEnabled" value="false" />
+  <preference name="android-minSdkVersion" value="19" />
+  <preference name="BackupWebStorage" value="none" />
+  <preference name="SplashMaintainAspectRatio" value="true" />
+  <preference name="FadeSplashScreenDuration" value="300" />
+  <preference name="SplashShowOnlyFirstTime" value="false" />
+  <preference name="SplashScreen" value="screen" />
+  <preference name="SplashScreenDelay" value="3000" />
+  <preference name="GOOGLE_MAPS_ANDROID_API_KEY" value="AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8" />
+  <preference name="GOOGLE_MAPS_IOS_API_KEY" value="AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8" />
+</widget>
