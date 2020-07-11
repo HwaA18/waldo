@@ -1,0 +1,41 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Registration
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--This displays if there is no user logged in-->
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registration</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!--This entire form function was copied from Ion framework and 
+    needs to be adjusted and better understood-->
+ 
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="first"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="last"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin"
+        (click)="processForm()">Create account</ion-button>
+    </div>
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin"
+        (click)="backToAccount()">Back</ion-button>
+    </div>
+    
+</ion-content>
