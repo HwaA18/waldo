@@ -19,6 +19,8 @@
     "@angular/platform-browser": "~9.1.6",
     "@angular/platform-browser-dynamic": "~9.1.6",
     "@angular/router": "~9.1.6",
+    "@capacitor/core": "2.2.1",
+    "@capacitor/ios": "^2.2.1",
     "@ionic-native/core": "^5.27.0",
     "@ionic-native/geolocation": "^5.27.0",
     "@ionic-native/google-maps": "^5.5.0",
@@ -27,9 +29,11 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "cordova-browser": "6.0.0",
+    "cordova-ios": "5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.7.1",
+    "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
     "cordova-plugin-nativegeocoder": "^3.4.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
@@ -41,6 +45,7 @@
     "@angular/compiler": "~9.1.6",
     "@angular/compiler-cli": "~9.1.6",
     "@angular/language-service": "~9.1.6",
+    "@capacitor/cli": "2.2.1",
     "@ionic/angular-toolkit": "^2.1.1",
     "@types/jasmine": "~3.5.0",
     "@types/jasminewd2": "~2.0.3",
@@ -81,7 +86,8 @@
       "cordova-plugin-geolocation": {}
     },
     "platforms": [
-      "browser"
+      "browser",
+      "ios"
     ]
   }
 }
