@@ -6,7 +6,8 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
+<!--This displays if there is no user logged in-->
+<ion-content *ngIf="loggedIn === false" [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
       <ion-title size="large">Tab 3</ion-title>
@@ -46,5 +47,31 @@
       <ion-button expand="block" type="submit" class="ion-no-margin"
         (click)="processForm()">Create account</ion-button>
     </div>
- 
+    
+</ion-content>
+
+<!--This displays when someone in logged in-->
+<ion-content *ngIf="loggedIn" [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-subtitle>Destination</ion-card-subtitle>
+      <ion-card-title>Madison, WI</ion-card-title>
+    </ion-card-header>
+    <ion-card-content>
+      Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+    </ion-card-content>
+    <ion-list lines="full" class="ion-no-margin ion-no-padding">
+      <ion-item>
+        <ion-label position="stacked">Login<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Password<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text"></ion-input>
+      </ion-item>
+    </ion-list>
+    <a href="registration">Don't have an account? Register here!</a>
+  </ion-card>
+
 </ion-content>
