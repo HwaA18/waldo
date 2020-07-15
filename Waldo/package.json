@@ -29,12 +29,12 @@
     "@ionic-native/status-bar": "^5.0.0",
     "@ionic/angular": "^5.0.0",
     "cordova-browser": "6.0.0",
-    "cordova-ios": "5.1.1",
     "cordova-plugin-add-swift-support": "^2.0.2",
     "cordova-plugin-geolocation": "^4.0.2",
     "cordova-plugin-googlemaps": "^2.7.1",
     "cordova-plugin-googlemaps-sdk": "git+https://github.com/mapsplugin/cordova-plugin-googlemaps-sdk.git",
     "cordova-plugin-nativegeocoder": "^3.4.1",
+    "ios": "0.0.1",
     "rxjs": "~6.5.1",
     "tslib": "^1.10.0",
     "zone.js": "~0.10.2"
@@ -86,8 +86,7 @@
       "cordova-plugin-geolocation": {}
     },
     "platforms": [
-      "browser",
-      "ios"
+      "browser"
     ]
   }
 }

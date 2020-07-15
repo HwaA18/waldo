@@ -4,9 +4,9 @@ import { Observable, Subject } from 'rxjs';
 @Injectable({ providedIn: 'root' })
 export class UserService {
     private user = new Subject<any>();
-    private logStatus: boolean = false;
+    private logStatus: any[] = [false];
 
-    sendStatus(status: boolean) {
+    sendStatus(status: any[]) {
         this.logStatus = status;
         this.user.next(this.logStatus );
     }
