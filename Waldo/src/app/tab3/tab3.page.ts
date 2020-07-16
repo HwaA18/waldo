@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { UserService } from '../_services/index';
 import { AlertController } from '@ionic/angular';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-tab3',
@@ -17,9 +18,11 @@ export class Tab3Page implements OnInit {
   password: string = ''
   check: any[];
 
+  api: any;
+
   subscription: Subscription;
 
-  constructor(private userService: UserService, public alertController: AlertController) {
+  constructor(private userService: UserService, public alertController: AlertController, private http: HttpClient) {
     this.subscription = this.userService.onStatus().subscribe(status => {
       if (status[0] == "account"){
         this.loggedIn = status[1]
@@ -73,6 +76,9 @@ export class Tab3Page implements OnInit {
   logIn(): void {
     console.log("Recorded from Login:")
     console.log(this.username + " " + this.password)
+    //Still experimenting with how to display the info that comes back from the server
+    this.api = this.http.get('https://localhost:5001/user/4')
+    console.log('From api: ' + this.api)
     if (this.username && this.password){
       this.userService.sendStatus(["account", true]);
     } else {
