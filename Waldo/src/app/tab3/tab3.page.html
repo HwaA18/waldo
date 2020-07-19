@@ -1,77 +1,59 @@
-<ion-header [translucent]="true">
+<!--This displays if there is no user logged in-->
+<ion-header *ngIf="loggedIn" [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Tab 3
+      Account
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<!--This displays if there is no user logged in-->
-<ion-content *ngIf="loggedIn === false" [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 3</ion-title>
-    </ion-toolbar>
-  </ion-header>
-
-  <!--This entire form function was copied from Ion framework and 
-    needs to be adjusted and better understood-->
- 
-    <ion-list lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="firstName"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="lastName"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Address</ion-label>
-        <ion-input placeholder="Address Line 1"></ion-input>
-        <ion-input placeholder="Address Line 2"></ion-input>
-        <ion-input placeholder="City"></ion-input>
-        <ion-input placeholder="State"></ion-input>
-        <ion-input placeholder="Zip Code"></ion-input>
-      </ion-item>
-
-      <ion-item>
-        <ion-label position="stacked">Notes</ion-label>
-        <ion-textarea></ion-textarea>
-      </ion-item>
-    </ion-list>
-
-    <div class="ion-padding">
-      <ion-button expand="block" type="submit" class="ion-no-margin"
-        (click)="processForm()">Create account</ion-button>
-    </div>
-    
+<ion-content *ngIf="loggedIn" [fullscreen]="true">
+  <p><b>First Name: </b>{{firstName}}</p>
+  <p><b>Last Name: </b>{{lastName}}</p>
+  <div class="ion-padding">
+    <ion-button expand="block" type="submit" class="ion-no-margin"
+      (click)="logOut()">Log Out</ion-button>
+  </div>
 </ion-content>
 
-<!--This displays when someone in logged in-->
-<ion-content *ngIf="loggedIn" [fullscreen]="true">
+<!--This displays when someone is not logged in-->
+<ion-header *ngIf="loggedIn === false" [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Log In
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content *ngIf="loggedIn === false" [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <ion-card-subtitle>Destination</ion-card-subtitle>
-      <ion-card-title>Madison, WI</ion-card-title>
+      <!--ion-card-subtitle>Destination</ion-card-subtitle-->
+      <ion-card-title>Log In Here!</ion-card-title>
     </ion-card-header>
     <ion-card-content>
-      Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the Wisconsin Territory in 1836.
+      Please log in to get the full Waldo experience.
     </ion-card-content>
     <ion-list lines="full" class="ion-no-margin ion-no-padding">
       <ion-item>
-        <ion-label position="stacked">Login<ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text"></ion-input>
+        <ion-label position="stacked">Username<ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="username"></ion-input>
       </ion-item>
 
       <ion-item>
         <ion-label position="stacked">Password<ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text"></ion-input>
+        <ion-input required type="text" [(ngModel)]="password"></ion-input>
       </ion-item>
     </ion-list>
-    <a href="registration">Don't have an account? Register here!</a>
+
+    <div class="ion-padding">
+      <a href="registration">Don't have an account? Register here!</a>
+    </div>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin"
+        (click)="logIn()">Log In</ion-button>
+    </div>
   </ion-card>
 
 </ion-content>

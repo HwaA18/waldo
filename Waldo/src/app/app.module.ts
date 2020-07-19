@@ -17,10 +17,13 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
+//Imports for getting data from API
+import { HttpClientModule } from '@angular/common/http';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
-  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, RegistrationModule],
+  imports: [BrowserModule, IonicModule.forRoot(), AppRoutingModule, RegistrationModule, HttpClientModule],
   providers: [
     StatusBar,
     SplashScreen,

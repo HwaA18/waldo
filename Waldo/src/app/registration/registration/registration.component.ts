@@ -22,14 +22,12 @@ export class RegistrationComponent implements OnInit {
   processForm(): void {
     console.log("Form Submitted.")
     console.log(this.first + " " + this.last)
+    this.logIn()
+    this.backToAccount()
   }
 
   logIn(): void {
-    this.userService.sendStatus(true);
-  }
-
-  logOut(): void {
-    this.userService.sendStatus(false);
+    this.userService.sendStatus(["registration", true, this.first, this.last]);
   }
 
   ngOnInit() {}
