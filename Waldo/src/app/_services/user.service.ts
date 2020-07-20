@@ -1,5 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+
+export interface Config {
+    username: string
+    password: string
+}
 
 @Injectable({ providedIn: 'root' })
 export class UserService {
@@ -18,4 +24,5 @@ export class UserService {
     getStatus() {
         this.user.next(this.logStatus)
     }
+
 }
