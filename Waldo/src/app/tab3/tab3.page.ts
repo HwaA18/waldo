@@ -88,7 +88,16 @@ export class Tab3Page implements OnInit {
     //)
 
     const data = await this.http.get('https://localhost:5001/user/', {responseType: 'json'}).toPromise();
-    console.log(data[0]['username'])
+    console.log(data)
+
+    const httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type' : 'application/json'
+      })
+    }
+
+    const data2 = await this.http.post<boolean>('https://localhost:5001/user/post', {"username":"asamee","password":"test5"}, httpOptions).toPromise();
+    console.log(data2)
 
     if (this.username && this.password){
       this.userService.sendStatus(["account", true]);
@@ -97,15 +106,6 @@ export class Tab3Page implements OnInit {
     }
     //console.log('From api: ' + this.api[0]['username'])
     //console.log('From api: ' + this.api2);
-
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type' : 'application/json'
-      })
-    }
-
-    const data2 = await this.http.post<boolean>('https://localhost:5001/user/post', {"username":"ctang","password":"test1"}, httpOptions).toPromise();
-    console.log(data2)
   }
 
   logOut(): void {
