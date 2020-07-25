@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { HttpClient } from '@angular/common/http';
 
 export interface Config {
     username: string
     password: string
+    firstName: string
+    lastName: string
+    address: string
 }
 
 @Injectable({ providedIn: 'root' })
