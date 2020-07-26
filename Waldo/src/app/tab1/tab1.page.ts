@@ -52,6 +52,33 @@ export class Tab1Page {
       this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
 
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+      var x = 39.875973;
+      var y = -75.5408616;
+      var locations = [
+        ["Your Location", this.latitude, this.longitude],
+        ["Wegmans", x, y],
+        ["Costco", 39.8897425, -75.535326]
+      ];
+      
+      var infowindow = new google.maps.InfoWindow();
+      
+      var marker, i;
+      
+      for (i = 0; i < locations.length; i++) {  
+        marker = new google.maps.Marker({
+          position: new google.maps.LatLng(locations[i][1], locations[i][2]),
+          map: this.map,
+        });
+
+        var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
+      
+        google.maps.event.addListener(marker, 'click', (function(marker, i) {
+          return function() {
+            infowindow.setContent(contentString);
+            infowindow.open(this.map, marker);
+          }
+        })(marker, i));
+      }
 
       this.map.addListener('dragend', () => {
 
