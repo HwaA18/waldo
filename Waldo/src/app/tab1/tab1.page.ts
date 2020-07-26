@@ -55,6 +55,7 @@ export class Tab1Page {
       var x = 39.875973;
       var y = -75.5408616;
       var locations = [
+        ["Your Location", this.latitude, this.longitude],
         ["Wegmans", x, y],
         ["Costco", 39.8897425, -75.535326]
       ];
@@ -68,10 +69,12 @@ export class Tab1Page {
           position: new google.maps.LatLng(locations[i][1], locations[i][2]),
           map: this.map,
         });
+
+        var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
       
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
-            infowindow.setContent('<div class="infowindow">locations[i][0]</div>');
+            infowindow.setContent(contentString);
             infowindow.open(this.map, marker);
           }
         })(marker, i));
