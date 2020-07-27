@@ -5,6 +5,7 @@ import { IonicModule } from '@ionic/angular';
 import { FormsModule } from '@angular/forms';
 import { Routes, RouterModule } from '@angular/router';
 import { Tab3Page } from '../tab3/tab3.page';
+import { HttpClientModule } from '@angular/common/http';
 
 const routes: Routes = [
   {
@@ -18,7 +19,8 @@ const routes: Routes = [
     CommonModule,
     IonicModule,
     FormsModule,
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes),
+    HttpClientModule
   ],
   exports: [RegistrationComponent, RouterModule]
 })

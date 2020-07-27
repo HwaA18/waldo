@@ -27,6 +27,31 @@
         <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
         <ion-input required type="text" [(ngModel)]="last"></ion-input>
       </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Username <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="user"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Password <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="pass"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Retype Password <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required type="text" [(ngModel)]="pass2"></ion-input>
+      </ion-item>
+
+      <ion-item>
+        <ion-label position="stacked">Address <ion-text color="danger">*</ion-text></ion-label>
+        <ion-input required [(ngModel)]="street1" placeholder="Address Line 1"></ion-input>
+        <ion-input [(ngModel)]="street2" placeholder="Address Line 2"></ion-input>
+        <ion-input required [(ngModel)]="city" placeholder="City"></ion-input>
+        <ion-input required type="text" maxlength="2" minlength="2" [(ngModel)]="state" placeholder="State"></ion-input>
+        <ion-input required type="number" [(ngModel)]="zip" placeholder="Zip Code"></ion-input>
+        <ion-input required [(ngModel)]="country" placeholder="Country"></ion-input>
+      </ion-item>
     </ion-list>
 
     <div class="ion-padding">

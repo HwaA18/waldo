@@ -29,6 +29,7 @@ export class Tab3Page implements OnInit {
         this.loggedIn = status[1]
         this.firstName = status[2]
         this.lastName = status[3]
+        this.address = status[4]
       } else {
         this.loggedIn = status[0]
       }
