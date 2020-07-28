@@ -28,7 +28,7 @@ export class Tab1Page {
   //I only did reroute to tab 3 as a place holder
   //do you mean tab 2 lol
   nextpage() {
-    this.route.navigate(['/tabs/tab2']);
+    this.route.navigate(['report']);
   }
 
   /* Only instantiate the map AFTER the view is initialized and the DOM is accessible */

@@ -16,7 +16,11 @@
 
   <!--This entire form function was copied from Ion framework and 
     needs to be adjusted and better understood-->
- 
+    <div class="ion-padding">
+      <ion-button size="small" color="light" type="submit" class="ion-no-margin"
+        (click)="backToAccount()">Back</ion-button>
+    </div>
+
     <ion-list lines="full" class="ion-no-margin ion-no-padding">
       <ion-item>
         <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
@@ -57,10 +61,6 @@
     <div class="ion-padding">
       <ion-button expand="block" type="submit" class="ion-no-margin"
         (click)="processForm()">Create account</ion-button>
-    </div>
-    <div class="ion-padding">
-      <ion-button expand="block" type="submit" class="ion-no-margin"
-        (click)="backToAccount()">Back</ion-button>
     </div>
     
 </ion-content>

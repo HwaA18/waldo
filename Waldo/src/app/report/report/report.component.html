@@ -1,3 +1,21 @@
-<p>
-  report works!
-</p>
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>
+      Registration
+    </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<!--This displays if there is no user logged in-->
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Registration</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <div class="ion-padding">
+    <ion-button size="small" color="light" type="submit" class="ion-no-margin"
+      (click)="backToMap()">Back</ion-button>
+  </div>
+</ion-content>
