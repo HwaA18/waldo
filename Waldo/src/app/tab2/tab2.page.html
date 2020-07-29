@@ -15,13 +15,19 @@
 
 <ion-searchbar (ionInput)="getResults($event)" autocorrect="on"></ion-searchbar>
 
-<ion-list>
-  <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small">
+<ion-list *ngIf="canShow == false">
+  <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small" (click)="showResults($event, item)">
     {{ item['name'] }} <br> {{ item['formatted_address'] }}
   </ion-button>
-  <!--<button *ngIf="readyToLoad == true">
-    {{ results[0]['formatted_address'] }}
-  </button> -->
 </ion-list> 
+
+<ion-card *ngIf="canShow">
+  <img id="id_img" src="{{ linkToPhoto }}" alt="img" />
+  <ion-card-subtitle class="ion-padding"> {{ selectedLoc['formatted_address'] }} </ion-card-subtitle>
+  <ion-card-title class="ion-padding"> {{ selectedLoc['name'] }} </ion-card-title>
+  <ion-card-content class="ion-padding">
+    Waiting on API
+  </ion-card-content>
+</ion-card>
 
 </ion-content>

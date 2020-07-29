@@ -18,4 +18,13 @@
     <ion-button size="small" color="light" type="submit" class="ion-no-margin"
       (click)="backToMap()">Back</ion-button>
   </div>
+
+  <ion-searchbar (ionInput)="getResults($event)" autocorrect="on"></ion-searchbar>
+
+  <ion-list *ngIf="canShow == false">
+    <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small" (click)="showResults($event, item)">
+      {{ item['name'] }} <br> {{ item['formatted_address'] }}
+    </ion-button>
+  </ion-list> 
+  
 </ion-content>

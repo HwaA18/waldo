@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Observable, Subject } from 'rxjs';
+
 
 @Component({
   selector: 'app-tab2',
@@ -15,15 +15,22 @@ export class Tab2Page {
   latitude: number;
   longitude: number;
   results:any = [];
+  canShow: boolean = false;
+  selectedLoc: any;
+  linkToPhoto: any;
 
   public getResults(ev: any) {
+    let val: String = ev.target.value;
+
+    if(val === "") {
+      this.canShow = false
+    }
+    
     this.geolocation.getCurrentPosition().then((resp) => {
 
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
     });
-
-    let val = ev.target.value;
 
     this.searchPlaces(this.latitude, this.longitude, val);
     console.log(this.results);
@@ -42,5 +49,21 @@ export class Tab2Page {
     //console.log(data['results'][0]['formatted_address']);
     this.results = data['results'];
     return data['results'];
+  }
+
+  public showResults(ev: any, item) {
+    this.canShow = true;
+    this.selectedLoc = item;
+
+    this.getPhoto();
+  }
+
+  public getPhoto() {
+    var placesString = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + this.selectedLoc['photos'][0]['photo_reference'] + '&key=AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8';
+    let httpString = placesString //proxyURL.concat(placesString); 
+    console.log(httpString);
+    this.linkToPhoto = httpString;
+
+    return httpString;
   }
 }

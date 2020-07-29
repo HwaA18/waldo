@@ -52,12 +52,10 @@ export class Tab1Page {
       this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
 
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-      var x = 39.875973;
-      var y = -75.5408616;
       var locations = [
-        ["Your Location", this.latitude, this.longitude],
-        ["Wegmans", x, y],
-        ["Costco", 39.8897425, -75.535326]
+        ["Your Location", this.latitude, this.longitude, 3],
+        ["Wegmans", 39.875973, -75.5408616, 2],
+        ["Costco", 39.8897425, -75.535326, 1]
       ];
       
       var infowindow = new google.maps.InfoWindow();
@@ -70,23 +68,24 @@ export class Tab1Page {
           map: this.map,
         });
 
-        var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
+        //var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
       
         google.maps.event.addListener(marker, 'click', (function(marker, i) {
           return function() {
+            var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
             infowindow.setContent(contentString);
             infowindow.open(this.map, marker);
           }
         })(marker, i));
       }
 
-      this.map.addListener('dragend', () => {
+      /*this.map.addListener('dragend', () => {
 
         this.latitude = this.map.center.lat();
         this.longitude = this.map.center.lng();
 
         this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-      });
+      }); */
 
     }).catch((error) => {
       console.log('Error getting location', error);
