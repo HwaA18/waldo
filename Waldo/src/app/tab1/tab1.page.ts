@@ -2,7 +2,7 @@ import { Router } from '@angular/router';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder, NativeGeocoderResult, NativeGeocoderOptions } from '@ionic-native/native-geocoder/ngx';
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { UserService, Store, Loc } from '../_services/index';
+import { UserService, Store, Loc, MapService } from '../_services/index';
 import { Subscription } from 'rxjs';
 import { AlertController } from '@ionic/angular';
 import { HttpClient } from '@angular/common/http';
@@ -26,6 +26,7 @@ export class Tab1Page {
   newLocations: any[] = [];
 
   userSubscription: Subscription;
+  mapSubscription: Subscription;
   loggedIn: boolean;
   username: string;
 
@@ -33,6 +34,7 @@ export class Tab1Page {
     private geolocation: Geolocation,
     private nativeGeocoder: NativeGeocoder,
     private userService: UserService,
+    private mapService: MapService,
     private alertController: AlertController,
     private http: HttpClient) {
     this.userSubscription = this.userService.onStatus().subscribe(status => {
@@ -45,6 +47,9 @@ export class Tab1Page {
       } else {
         this.loggedIn = status[0]
       }
+    })
+    this.mapSubscription = this.mapService.onStatus().subscribe(status => {
+      this.loadMap()
     })
   }
 

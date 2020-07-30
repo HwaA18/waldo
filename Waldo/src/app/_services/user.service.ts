@@ -72,3 +72,17 @@ export class UserService {
     }
 
 }
+
+@Injectable({ providedIn: 'root' })
+export class MapService {
+    private map = new Subject<any>();
+
+    sendStatus(status: any) {
+        this.map.next(status);
+    }
+
+    onStatus(): Observable<any> {
+        return this.map.asObservable();
+    }
+
+}

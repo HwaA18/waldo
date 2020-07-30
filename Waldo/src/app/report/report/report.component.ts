@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { Store, UserService } from '../../_services/index'
+import { Store, UserService, MapService } from '../../_services/index'
 import { AlertController } from '@ionic/angular';
 import { Subscription } from 'rxjs';
 
@@ -91,7 +91,8 @@ export class ReportComponent implements OnInit {
   userSubscription: Subscription;
   loggedIn: boolean;
 
-  constructor(private route: Router, private geolocation: Geolocation, private http: HttpClient, public alertController: AlertController, private userService: UserService) { 
+  constructor(private route: Router, private geolocation: Geolocation, private http: HttpClient, public alertController: AlertController, 
+    private userService: UserService, private mapService: MapService) { 
     this.userSubscription = this.userService.onStatus().subscribe(status => {
       if (status[0] == "account"){
         this.loggedIn = status[1]
@@ -262,6 +263,7 @@ export class ReportComponent implements OnInit {
     if (data2 == true){
       this.success()
       this.clearFields()
+      this.mapService.sendStatus(0)
       this.canShow = false
     } else {
       this.errorOccurred()
