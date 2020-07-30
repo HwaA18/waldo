@@ -24,11 +24,49 @@ export class Tab1Page {
   longitude: number;
 
   newLocations: any[] = [];
+  locationsStocks: Store[] = [];
 
   userSubscription: Subscription;
   mapSubscription: Subscription;
   loggedIn: boolean;
   username: string;
+
+  titles: Store = {
+    name: '',
+    latitude: '',
+    longitude: '',
+    address: '',
+    masksRequired: '',
+    masks: 'Masks',
+    gloves: 'Gloves',
+    handSanitizer: 'Hand Sanitizer',
+    paperTowels: 'Paper Towels',
+    toiletPaper: 'Toilet Paper',
+    liquidSoap: 'Liquid Soap',
+    barSoap: 'Bar Soap',
+    cleaningWipes: 'Cleaning Wipes',
+    aerosolDisinfectant: 'Aerosol Disinfectants',
+    bleach: 'Bleach',
+    flushableWipes: 'Flushable Wipes',
+    tissues: 'Tissues',
+    diapers: 'Diapers',
+    waterFilters: 'Water Filters',
+    coldRemedies: 'Cold Remedies',
+    coughRemedies: 'Cough Remedies',
+    rubbingAlcohol: 'Rubbing Alcohol',
+    antiseptic: 'Antiseptic',
+    thermometer: 'Thermometer',
+    firstAidKit: 'First Aid Kits',
+    waterBottles: 'Water Bottles',
+    eggs: 'Eggs',
+    milk: 'Milk',
+    bread: 'Bread',
+    beef: 'Beef',
+    chicken: 'Chicken',
+    pork: 'Pork',
+    yeast: 'Yeast',
+    reportedBy: ''
+  }
 
   constructor(private route: Router,
     private geolocation: Geolocation,
@@ -72,10 +110,25 @@ export class Tab1Page {
   async setupLocations() {
     const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
     console.log(data)
+    this.locationsStocks = data;
     for (let i = 0; i < data.length; i++) {
       this.newLocations[i] = [data[i]['name'], Number(data[i]['latitude']), Number(data[i]['longitude']), (i + 1)]
     }
     console.log(this.newLocations)
+  }
+
+  public getStock(i: number): string {
+    var out: string = ''
+    for (var key in this.locationsStocks[i]) {
+      if (this.locationsStocks[i][key] == "Currently Out of Stock" || this.locationsStocks[i][key] == "Not Sold At This Location") {
+        if (out == '') {
+          out = this.titles[key]
+        } else {
+          out = out + ", " + this.titles[key]
+        }
+      }
+    }
+    return out
   }
 
   async loadMap() {
@@ -111,15 +164,27 @@ export class Tab1Page {
           map: this.map,
         });
 
+        var out: string = ""
+        for (var key in this.locationsStocks[i]) {
+          if (this.locationsStocks[i][key] == "Currently Out of Stock" || this.locationsStocks[i][key] == "Not Sold At This Location") {
+            if (out == "") {
+              out = this.titles[key]
+            } else {
+              out = out + ", " + this.titles[key]
+            }
+          }
+        }
+        console.log(out)
+
         //var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
 
-        google.maps.event.addListener(marker, 'click', (function (marker, i) {
+        google.maps.event.addListener(marker, 'click', (function (marker, i, out) {
           return function () {
-            var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '<br>' + '</div>';
+            var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '<br>Out of: ' + out + '</div>';
             infowindow.setContent(contentString);
             infowindow.open(this.map, marker);
           }
-        })(marker, i));
+        })(marker, i, out));
       }
 
       /*this.map.addListener('dragend', () => {
