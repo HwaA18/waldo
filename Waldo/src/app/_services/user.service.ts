@@ -9,6 +9,50 @@ export interface Config {
     address: string
 }
 
+export interface Store {
+    name: string
+    latitude: string
+    longitude: string
+    address: string
+    masksRequired: string
+    masks: string
+    gloves: string
+    handSanitizer: string
+    paperTowels: string
+    toiletPaper: string
+    liquidSoap: string
+    barSoap: string
+    cleaningWipes: string
+    aerosolDisinfectant: string
+    bleach: string
+    flushableWipes: string
+    tissues: string
+    diapers: string
+    waterFilters: string
+    coldRemedies: string
+    coughRemedies: string
+    rubbingAlcohol: string
+    antiseptic: string
+    thermometer: string
+    firstAidKit: string
+    waterBottles: string
+    eggs: string
+    milk: string
+    bread: string
+    beef: string
+    chicken: string
+    pork: string
+    yeast: string
+    reportedBy: string
+}
+
+export interface Loc {
+    name: string
+    lat: number
+    long: number
+    id: number
+}
+
 @Injectable({ providedIn: 'root' })
 export class UserService {
     private user = new Subject<any>();

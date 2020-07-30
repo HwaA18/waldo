@@ -57,7 +57,7 @@ export class Tab3Page implements OnInit {
       //(data: string) => this.api2 = data
     //)
 
-    const data: Config[] = await this.http.get<Config[]>('https://localhost:5001/user/').toPromise();
+    const data: Config[] = await this.http.get<Config[]>('https://waldofind.azurewebsites.net/user').toPromise();
     console.log(data)
     
     // const httpOptions = {
@@ -83,7 +83,7 @@ export class Tab3Page implements OnInit {
       }
       if (match){
         console.log("Match " + this.username)
-        this.userService.sendStatus(["account", true]);
+        this.userService.sendStatus(["account", true, this.username]);
       } else {
         this.incorrectCredentials()
         console.log("Incorrect Credentials")
@@ -99,7 +99,7 @@ export class Tab3Page implements OnInit {
     this.firstName = ''
     this.lastName = ''
     this.address = ''
-    this.userService.sendStatus(["account", false]);
+    this.userService.sendStatus(["account", false, this.username]);
   }
 
   ngOnInit() : void {

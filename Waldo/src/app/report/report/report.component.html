@@ -1,7 +1,7 @@
 <ion-header [translucent]="true">
   <ion-toolbar>
     <ion-title>
-      Registration
+      Report
     </ion-title>
   </ion-toolbar>
 </ion-header>
@@ -10,21 +10,893 @@
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
-      <ion-title size="large">Registration</ion-title>
+      <ion-title size="large">Report</ion-title>
     </ion-toolbar>
   </ion-header>
 
   <div class="ion-padding">
-    <ion-button size="small" color="light" type="submit" class="ion-no-margin"
-      (click)="backToMap()">Back</ion-button>
+    <ion-button size="small" color="light" type="submit" class="ion-no-margin" (click)="backToMap()">Back</ion-button>
   </div>
 
-  <ion-searchbar (ionInput)="getResults($event)" autocorrect="on"></ion-searchbar>
+  <div *ngIf="canShow == false">
+    <ion-searchbar (ionInput)="getResults($event)" autocorrect="on" placeholder="Select Location to Report">
+    </ion-searchbar>
 
-  <ion-list *ngIf="canShow == false">
-    <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small" (click)="showResults($event, item)">
-      {{ item['name'] }} <br> {{ item['formatted_address'] }}
-    </ion-button>
-  </ion-list> 
-  
+    <ion-list>
+      <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small"
+        (click)="showResults($event, item)">
+        {{ item['name'] }} <br> {{ item['formatted_address'] }}
+      </ion-button>
+    </ion-list>
+  </div>
+
+  <div *ngIf="canShow">
+    <ion-card>
+      <br>
+      <ion-card-title class="ion-padding">{{selectedLoc['name']}}</ion-card-title>
+      <ion-card-subtitle class="ion-padding">{{selectedLoc['formatted_address']}}</ion-card-subtitle>
+      <br>
+    </ion-card>
+
+    <ion-radio-group [(ngModel)]="reqMasks">
+      <ion-list-header>
+        <ion-label>Are Masks Required at this Establishment?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Yes</ion-label>
+        <ion-radio slot="start" color="success" value="Yes"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>No</ion-label>
+        <ion-radio slot="start" color="danger" value="No"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+
+    <ion-radio-group [(ngModel)]="masks">
+      <ion-list-header>
+        <ion-label>Are Masks Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="gloves">
+      <ion-list-header>
+        <ion-label>Are Gloves Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="sanitizer">
+      <ion-list-header>
+        <ion-label>Is Hand Sanitizer Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="towels">
+      <ion-list-header>
+        <ion-label>Are Paper Towels Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="tp">
+      <ion-list-header>
+        <ion-label>Is Toilet Paper Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="liquid">
+      <ion-list-header>
+        <ion-label>Is Liquid Soap Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="bar">
+      <ion-list-header>
+        <ion-label>Is Bar Soap Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="wipes">
+      <ion-list-header>
+        <ion-label>Are Cleaning Wipes Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="aero">
+      <ion-list-header>
+        <ion-label>Are Aerosol Disinfectants Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="bleach">
+      <ion-list-header>
+        <ion-label>Is Bleach Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="flush">
+      <ion-list-header>
+        <ion-label>Are Flushable Wipes Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="tissues">
+      <ion-list-header>
+        <ion-label>Are Tissues Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="diapers">
+      <ion-list-header>
+        <ion-label>Are Diapers Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="filters">
+      <ion-list-header>
+        <ion-label>Are Water Filters Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="cold">
+      <ion-list-header>
+        <ion-label>Are Cold Remedies Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="cough">
+      <ion-list-header>
+        <ion-label>Are Cough Remedies Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="rubAlc">
+      <ion-list-header>
+        <ion-label>Is Rubbing Alcohol Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="antiseptic">
+      <ion-list-header>
+        <ion-label>Is Antiseptic Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="thermometer">
+      <ion-list-header>
+        <ion-label>Are Thermometers Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="firstAid">
+      <ion-list-header>
+        <ion-label>Are First Aid Kits Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="bottles">
+      <ion-list-header>
+        <ion-label>Are Water Bottles Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="eggs">
+      <ion-list-header>
+        <ion-label>Are Eggs Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="milk">
+      <ion-list-header>
+        <ion-label>Is Milk Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="bread">
+      <ion-list-header>
+        <ion-label>Is Bread Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="beef">
+      <ion-list-header>
+        <ion-label>Is Beef Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="chicken">
+      <ion-list-header>
+        <ion-label>Is Chicken Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="pork">
+      <ion-list-header>
+        <ion-label>Is Pork Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <ion-radio-group [(ngModel)]="yeast">
+      <ion-list-header>
+        <ion-label>Is Yeast Available?</ion-label>
+      </ion-list-header>
+      <ion-item>
+        <ion-label>Many Units Available</ion-label>
+        <ion-radio slot="start" color="success" value="Many Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Few Units Are Available</ion-label>
+        <ion-radio slot="start" color="tertiary" value="Few Units Available"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Out of Stock</ion-label>
+        <ion-radio slot="start" color="danger" value="Currently Out of Stock"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>Not Sold At This Location</ion-label>
+        <ion-radio slot="start" color="Dark" value="Not Sold At This Location"></ion-radio>
+      </ion-item>
+
+      <ion-item>
+        <ion-label>I Am Unaware of the Product's Status</ion-label>
+        <ion-radio slot="start" color="Medium" value="unsure"></ion-radio>
+      </ion-item>
+    </ion-radio-group>
+
+    <div class="ion-padding">
+      <ion-button expand="block" type="submit" class="ion-no-margin" (click)="report()">Submit Report</ion-button>
+    </div>
+  </div>
+
 </ion-content>

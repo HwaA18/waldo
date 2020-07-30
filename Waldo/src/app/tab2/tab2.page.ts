@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { Store } from '../_services/index';
 
 
 @Component({
@@ -18,6 +19,45 @@ export class Tab2Page {
   canShow: boolean = false;
   selectedLoc: any;
   linkToPhoto: any;
+
+  blank: Store = {
+    name: '',
+    latitude: '',
+    longitude: '',
+    address: '',
+    masksRequired: '',
+    masks: '',
+    gloves: '',
+    handSanitizer: '',
+    paperTowels: '',
+    toiletPaper: '',
+    liquidSoap: '',
+    barSoap: '',
+    cleaningWipes: '',
+    aerosolDisinfectant: '',
+    bleach: '',
+    flushableWipes: '',
+    tissues: '',
+    diapers: '',
+    waterFilters: '',
+    coldRemedies: '',
+    coughRemedies: '',
+    rubbingAlcohol: '',
+    antiseptic: '',
+    thermometer: '',
+    firstAidKit: '',
+    waterBottles: '',
+    eggs: '',
+    milk: '',
+    bread: '',
+    beef: '',
+    chicken: '',
+    pork: '',
+    yeast: '',
+    reportedBy: ''
+  }
+
+  storeInfo: Store = this.blank;
 
   public getResults(ev: any) {
     let val: String = ev.target.value;
@@ -51,11 +91,28 @@ export class Tab2Page {
     return data['results'];
   }
 
-  public showResults(ev: any, item) {
+  locateReport(data: Store[]){
+    for (let i = 0; i < data.length; i++) {
+      if (data[i]['name'] == this.selectedLoc['name'] && data[i]['latitude'] == this.selectedLoc['geometry']['location']['lat'].toString()
+        && data[i]['longitude'] == this.selectedLoc['geometry']['location']['lng'].toString() && data[i]['address'] == this.selectedLoc['formatted_address']) {
+        this.storeInfo = data[i]
+        return
+      }
+    }
+    this.storeInfo = this.blank
+  }
+
+  public async showResults(ev: any, item) {
     this.canShow = true;
     this.selectedLoc = item;
 
     this.getPhoto();
+    // this.info = 'Please confirm that you supplied the correct information, or click \"<strong>Cancel</strong>\" to continue editing.' + 
+    //     '<br><br><strong>First Name:</strong> ' + this.selectedLoc['name'] + '<br><strong>Last Name:</strong> ' + this.selectedLoc['name'] + 
+    //     '<br><strong>Userame:</strong> ' + this.selectedLoc['name'] + '<br><strong>Address:</strong> ' + this.selectedLoc['formatted_address']
+    const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
+    console.log(data)
+    this.locateReport(data)
   }
 
   public getPhoto() {

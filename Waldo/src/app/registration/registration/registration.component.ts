@@ -53,7 +53,7 @@ export class RegistrationComponent implements OnInit {
       this.first = this.capitalizeFirst(this.first.trim())
       this.last = this.capitalizeFirst(this.last.trim())
       this.user = this.user.trim()
-      const data: Config[] = await this.http.get<Config[]>('https://localhost:5001/user/').toPromise();
+      const data: Config[] = await this.http.get<Config[]>('https://waldofind.azurewebsites.net/user').toPromise();
       console.log(data)
       if (this.checkUsernameTaken(data)) {
         this.pass = this.pass.trim()
@@ -90,7 +90,7 @@ export class RegistrationComponent implements OnInit {
   }
 
   logIn(address: string): void {
-    this.userService.sendStatus(["registration", true, this.first, this.last, address]);
+    this.userService.sendStatus(["registration", true, this.first, this.last, address, this.user]);
   }
 
   checkState(): boolean {
@@ -138,7 +138,7 @@ export class RegistrationComponent implements OnInit {
                 'Content-Type' : 'application/json'
               })
             }
-            const data2 = await this.http.post<boolean>('https://localhost:5001/user/post', {"username": this.user,"password": this.pass, "firstName": this.first, "lastName": this.last, "address": this.fullAddress}, httpOptions).toPromise();
+            const data2 = await this.http.post<boolean>('https://waldofind.azurewebsites.net/user/post', {"username": this.user,"password": this.pass, "firstName": this.first, "lastName": this.last, "address": this.fullAddress}, httpOptions).toPromise();
             console.log(data2)
             this.backToAccount()
           }
