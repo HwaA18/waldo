@@ -65,7 +65,8 @@ export class Tab1Page {
     chicken: 'Chicken',
     pork: 'Pork',
     yeast: 'Yeast',
-    reportedBy: ''
+    reportedBy: '',
+    timestamp: '',
   }
 
   constructor(private route: Router,
@@ -117,20 +118,6 @@ export class Tab1Page {
     console.log(this.newLocations)
   }
 
-  public getStock(i: number): string {
-    var out: string = ''
-    for (var key in this.locationsStocks[i]) {
-      if (this.locationsStocks[i][key] == "Currently Out of Stock" || this.locationsStocks[i][key] == "Not Sold At This Location") {
-        if (out == '') {
-          out = this.titles[key]
-        } else {
-          out = out + ", " + this.titles[key]
-        }
-      }
-    }
-    return out
-  }
-
   async loadMap() {
     this.geolocation.getCurrentPosition().then(async (resp) => {
 
@@ -174,6 +161,7 @@ export class Tab1Page {
             }
           }
         }
+        out = out + '<br>As Of: ' + this.locationsStocks[i]['timestamp']
         console.log(out)
 
         //var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';

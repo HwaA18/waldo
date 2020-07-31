@@ -19,6 +19,7 @@ export class ReportComponent implements OnInit {
   canShow: boolean = false;
   selectedLoc: any;
   linkToPhoto: any;
+  date: Date;
 
   reqMasks: string;
   masks: string;
@@ -85,7 +86,8 @@ export class ReportComponent implements OnInit {
     chicken: '',
     pork: '',
     yeast: '',
-    reportedBy: ''
+    reportedBy: '',
+    timestamp: ''
   }
 
   userSubscription: Subscription;
@@ -187,6 +189,16 @@ export class ReportComponent implements OnInit {
     this.reportStore['pork'] = this.pork
     this.reportStore['yeast'] = this.yeast
     this.reportStore['reportedBy'] = this.by
+
+    this.date = new Date();
+    const options = {
+      hour: 'numeric',
+      minute: 'numeric',
+      hour12: true
+    }
+    const time = new Intl.DateTimeFormat('en-US', options).format(this.date)
+    console.log(time)
+    this.reportStore['timestamp'] = this.date.toDateString() + " " + time
   }
 
   clearFields() {

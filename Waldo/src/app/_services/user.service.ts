@@ -44,6 +44,7 @@ export interface Store {
     pork: string
     yeast: string
     reportedBy: string
+    timestamp: string
 }
 
 export interface Loc {

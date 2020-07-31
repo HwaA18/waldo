@@ -54,7 +54,8 @@ export class Tab2Page {
     chicken: '',
     pork: '',
     yeast: '',
-    reportedBy: ''
+    reportedBy: '',
+    timestamp: ''
   }
 
   storeInfo: Store = this.blank;
