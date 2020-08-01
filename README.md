@@ -35,6 +35,8 @@ In order to run our application on a variety devices we have provided build file
     For any clarification on deploying to IOS or Android that was not clear below, can be found here: [ionicframework.com](https://ionicframework.com/docs/angular/your-first-app/6-deploying-mobile)
 
     * Run on IOS
+
+        Within the "Waldo" directory run:
         ```
         ionic cap open ios
         ```
@@ -42,11 +44,15 @@ In order to run our application on a variety devices we have provided build file
 
         You can then run our app on a simulator or IOS device!
     * Run on Android
+
+        Within the "Waldo" directory run:
         ```
         ionic cap open android
         ```
         As a team we did not experience any permissions issues with Android devices. If they occur, please reference the link above for guidance.
     * Run on Google Chrome Browser
+
+        Within the "Waldo" directory run:
         ```
         ionic serve
         ```
