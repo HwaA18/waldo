@@ -14,7 +14,7 @@ For a visual demonstration of our application, please see this video:
 * Angular 9
 * Ionic Framework: @ionic/angular 5.2.2
 ## Deploy
-In order to run our application on a variety devices we have provided build files within our repository for Android and IOS devices. In order to deploy our application you will need to have Git, Node, Ionic and Angular installed on your system. 
+In order to run our application on a variety devices we have provided build files within our repository for Android and iOS devices. In order to deploy our application you will need to have Git, Node, Ionic and Angular installed on your system. 
 
 ### Follow the steps below to deploy our application:
 
@@ -30,11 +30,11 @@ In order to run our application on a variety devices we have provided build file
     ```
 3. Run the application
 
-    Our application can be run on IOS devices, Android devices, and in a Google Chrome Browser. 
+    Our application can be run on iOS devices, Android devices, and in a Google Chrome Browser. 
     
-    For any clarification on deploying to IOS or Android that was not clear below, can be found here: [ionicframework.com](https://ionicframework.com/docs/angular/your-first-app/6-deploying-mobile)
+    For any clarification on deploying to iOS or Android that was not clear below, can be found here: [ionicframework.com](https://ionicframework.com/docs/angular/your-first-app/6-deploying-mobile)
 
-    * Run on IOS
+    * Run on iOS
 
         Within the "Waldo" directory run:
         ```
