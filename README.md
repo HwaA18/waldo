@@ -1,5 +1,5 @@
 # Waldo: HwaTang COVID-19  App
-The app that helps you narrow down your search for your pandemic related needs. Our application uses user reported data to share the availability of COVID-19 related in demand goods. Reports filed allow us to display information on the `Map` in the form of markers or viewed in the Search functionality. The full list of goods we track can be viewed below.  
+The app that helps you narrow down your search for your pandemic related needs. Our application uses user reported data to share the availability of COVID-19 related in demand goods. Reports filed allow us to display information on the `Map` in the form of markers or viewed in the `Search` functionality. The full list of goods we track can be viewed below.  
 
 For a visual demonstration of our application, please see this video:
 [Waldo Demo](https://youtu.be/qqXvjzSxkVk)
