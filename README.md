@@ -8,7 +8,7 @@ For a visual demonstration of our application, please see this video:
 * [Technologies](#technologies)
 * [Deploy](#deploy)
 * [Features](#features)
-* [Good We Track](#goods-we-track)
+* [Goods We Track](#goods-we-track)
 * [Access Our API](#our-api)
 ## Technologies
 * Angular 9
@@ -42,7 +42,7 @@ In order to run our application on a variety devices we have provided build file
         ```
         When using XCode we did notice, one particular piece of information needed to be set in order to build and run the application. Select `App` in the Project Navigator on the left-hand side, then within the `Signing & Capabilites` section, select your development team. 
 
-        You can then run our app on a simulator or IOS device!
+        You can then run our app on a simulator or iOS device!
     * Run on Android
 
         Within the "Waldo" directory run:
