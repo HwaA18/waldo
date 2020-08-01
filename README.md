@@ -1,5 +1,9 @@
 # Waldo: HwaTang COVID-19  App
 The app that helps you narrow down your search for your pandemic related needs. Our application uses user reported data to share the availability of COVID-19 related in demand goods. Reports filed allow us to display information on the `Map` in the form of markers or viewed in the Search functionality. The full list of goods we track can be viewed below.  
+
+For a visual demonstration of our application, please see this video:
+[Waldo Demo](https://youtu.be/qqXvjzSxkVk)
+
 ## Table of Contents
 * [Technologies](#technologies)
 * [Deploy](#deploy)
@@ -64,7 +68,15 @@ On the `Search` page is a search bar so that a user may seek information regardi
 
 Once a location is selected from the search results, a card of information will be displayed. It includes the name of the establishment, its address, and an image associated with it. Additionally, any product availability reported by users is displayed along with who filed the most recent and at what time. 
 
+### Login
+On the `Login` a user is asked to enter their username and associated password. This information is then verified with our SQL database. If the credentials are incorrect, the user will be alerted. Otherwise, the page will populate with the user's first name, last name, and address. From here, the user may also log out. Users can view store information without an account but may not report it. 
 
+There is a link on the `Login` page for users that do not have an account. This will redirect them to the `Registration` page. 
+
+### Registration
+The `Registration` page allows a user to create an account. This requires a user to provide their first name, last name, preferred username, password (twice to confirm it has been provided correctly), and their address. Their address is reformatted by our program before being submitted. All fields must be filled before submission, if they are not an alert is triggered. If the username has already been taken, an alert will trigger. If the passwords do not match, an alert is triggered. 
+
+If the information is provided correctly, an alert will be triggered to allow the user to confirm all information has been entered correctly. The user can then cancel to correct the information or accept it. If it is accepted, the user will be redirected to the `Login` page and logged in. Therefore they will see their first name, last name, and address as above. 
 
 ## Goods We Track
 ### Personal Protective Equipment:
