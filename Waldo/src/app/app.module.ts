@@ -18,7 +18,7 @@ import { GoogleMaps } from '@ionic-native/google-maps';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { NativeGeocoder } from '@ionic-native/native-geocoder/ngx';
 
-//Imports for getting data from API
+//Imports for getting data from our API
 import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({

@@ -7,6 +7,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { Tab3Page } from '../tab3/tab3.page';
 import { HttpClientModule } from '@angular/common/http';
 
+//From the registration form, the only necessary page a user should be able to access is the account page
 const routes: Routes = [
   {
     path: 'tabs/tab3', component: Tab3Page

@@ -9,50 +9,19 @@
 </ion-header>
 
  <ion-content [fullscreen]="true">
-  <!-- <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Map</ion-title>
-    </ion-toolbar>
-  </ion-header> -->
 
+  <!--We chose to leave this in the background to show what should load if the map lags-->
   <app-explore-container name="Map page"></app-explore-container>
 
-<!--Below is the map ionic conteent-->
 
+  <!--We set up the class to display the map as the Google Maps API instructs-->
   <div class="map-wrapper">
     <div id="map_center">
-      <!--<img src="assets/icon/location-marker.png" /> -->
     </div>
     <div #map id="map"></div>
   </div>
 
-  <!--<ion-grid>
-    <ion-row>
-      <ion-col size="3">
-        <b>Lattitude</b>
-      </ion-col>
-      <ion-col>
-        {{latitude}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <b>Longitude</b>
-      </ion-col>
-      <ion-col>
-        {{longitude}}
-      </ion-col>
-    </ion-row>
-    <ion-row>
-      <ion-col size="3">
-        <b>Address</b>
-      </ion-col>
-      <ion-col>
-        {{address}}
-      </ion-col>
-    </ion-row>
-  </ion-grid> -->
-
+  <!--A floating action button allows users to file a report about a location if they are logged in-->
   <ion-fab vertical="bottom" horizontal="start" slot="fixed">
     <ion-fab-button (click)="nextpage()">
       <ion-icon name="add"></ion-icon>

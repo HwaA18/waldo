@@ -6,7 +6,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!--This displays if there is no user logged in-->
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -14,14 +13,18 @@
     </ion-toolbar>
   </ion-header>
 
+  <!--Button to return to the map page-->
   <div class="ion-padding">
     <ion-button size="small" color="light" type="submit" class="ion-no-margin" (click)="backToMap()">Back</ion-button>
   </div>
 
+  <!--Initially, when a user has not selected a specific store, the search bar is displayed
+      to allow the user to get the accurate address of a store-->
   <div *ngIf="canShow == false">
     <ion-searchbar (ionInput)="getResults($event)" autocorrect="on" placeholder="Select Location to Report">
     </ion-searchbar>
 
+    <!--Google Maps API lets us display addresses based on the user's search-->
     <ion-list>
       <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small"
         (click)="showResults($event, item)">
@@ -30,6 +33,8 @@
     </ion-list>
   </div>
 
+  <!--When the user selects an address, the address is displayed as well as a series of questions
+      regarding the product availability at the establishment-->
   <div *ngIf="canShow">
     <ion-card>
       <br>
@@ -38,6 +43,9 @@
       <br>
     </ion-card>
 
+    <!--Each of the following radio groups creates a series of options that a user can select. 
+        The user's selections then stores in the variable associated with the radio-group 
+        labeled by [(ngModel)]-->
     <ion-radio-group [(ngModel)]="reqMasks">
       <ion-list-header>
         <ion-label>Are Masks Required at this Establishment?</ion-label>
@@ -894,6 +902,8 @@
       </ion-item>
     </ion-radio-group>
 
+    <!--The submit button is displayed at the bottom of the report form and triggers either a success 
+        alert with the option to return to the map or submit another report, or error message-->
     <div class="ion-padding">
       <ion-button expand="block" type="submit" class="ion-no-margin" (click)="report()">Submit Report</ion-button>
     </div>

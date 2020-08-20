@@ -12,15 +12,10 @@ import { Subscription } from 'rxjs';
   styleUrls: ['./report.component.scss'],
 })
 export class ReportComponent implements OnInit {
-
-  latitude: number;
-  longitude: number;
-  results: any = [];
+  //Will dictate whether the searchbar for store addresses is displayed or the from to be filled out
   canShow: boolean = false;
-  selectedLoc: any;
-  linkToPhoto: any;
-  date: Date;
 
+  //Each of the following variables is associated with a question on the report form
   reqMasks: string;
   masks: string;
   gloves: string;
@@ -50,8 +45,9 @@ export class ReportComponent implements OnInit {
   chicken: string;
   pork: string;
   yeast: string;
-  by: string;
+  date: Date;
 
+  //This store variable is created to be filled when the user enters information about products
   reportStore: Store = {
     name: '',
     latitude: '',
@@ -90,9 +86,28 @@ export class ReportComponent implements OnInit {
     timestamp: ''
   }
 
+  /*The subscription variable is necessary to communicate with the user service we created to 
+    track if a user is logged in to the app. The loggedIn variable shows whether they are logged in
+    and by will be used to retreive their username as it is recorded in our database
+  */
   userSubscription: Subscription;
   loggedIn: boolean;
+  by: string;
 
+  //The lat and long are used to store the user's current location and results will be filled when the user enters a keyword in the searchbar
+  latitude: number;
+  longitude: number;
+  results: any = [];
+  
+  //The location chosen by the user to report on and the photo associated with it on Google
+  selectedLoc: any;
+  linkToPhoto: any;
+
+  /*Establishes access the router, location services, HTTPLCient, alertController, our userService, and the mapService 
+    that resets the map when a report is filed. Within the constructor, the rules of the subscription to our userService are set. 
+    The userService information varies based on whether a new account is created or an existing account is used, and 
+    is parsed accordingly.
+  */
   constructor(private route: Router, private geolocation: Geolocation, private http: HttpClient, public alertController: AlertController, 
     private userService: UserService, private mapService: MapService) { 
     this.userSubscription = this.userService.onStatus().subscribe(status => {
@@ -108,15 +123,19 @@ export class ReportComponent implements OnInit {
     })
   }
 
+  //Initially established whether a user is logged in when the page loads
   ngOnInit() { 
     this.userService.getStatus();
   }
 
+  //Clears any fields the user may have entered and navigates to the map page
   backToMap(): void {
     this.clearFields()
     this.route.navigate(['tabs/tab1'])
   }
 
+  //Takes in what is entered into the search bar, gathers the current location of the user, and 
+  //searches for locations near the users location using the keyword(s) entered
   public getResults(ev: any) {
     let val: String = ev.target.value;
 
@@ -131,29 +150,29 @@ export class ReportComponent implements OnInit {
     });
 
     this.searchPlaces(this.latitude, this.longitude, val);
-    console.log(this.results);
-    //return this.results;
-
   }
 
+  //Using a proxy, we access the Google Maps API to query with the given keyword(s) and current user location.
+  //The returned results are then stored in the results field to be presented to the user
   async searchPlaces(lat, long, input) {
-    //const data = await this.http.get('https://localhost:5001/user/', {responseType: 'json'}).toPromise();
-    //console.log(data[0]['username'])
     const proxyURL = "https://cors-anywhere.herokuapp.com/";
     var placesString = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + input + '&location=' + lat + ',' + long + '&key=AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8';
     let httpString = proxyURL.concat(placesString);
-    console.log(httpString);
     const data = await this.http.get(httpString, { responseType: 'json' }).toPromise();
-    //console.log(data['results'][0]['formatted_address']);
     this.results = data['results'];
     return data['results'];
   }
 
+  //When a user selects a result, its address will be displayed, the form will open, and the selected result will be stored
   public showResults(ev: any, item) {
     this.canShow = true;
     this.selectedLoc = item;
   }
 
+  /*Fills in the fields of a store interface with the fields of the selected location and the entered report information. 
+    The current date and time are then retrieved, formatted and stored in the timestamp field of the store. This allows user 
+    to see the most recent update.
+  */
   createStore() {
     this.reportStore['name'] = this.selectedLoc['name']
     this.reportStore['latitude'] = this.selectedLoc['geometry']['location']['lat'].toString()
@@ -197,10 +216,10 @@ export class ReportComponent implements OnInit {
       hour12: true
     }
     const time = new Intl.DateTimeFormat('en-US', options).format(this.date)
-    console.log(time)
     this.reportStore['timestamp'] = this.date.toDateString() + " " + time
   }
 
+  //All report form entry fields are set to empty
   clearFields() {
     this.reqMasks = '';
     this.masks = '';
@@ -235,6 +254,12 @@ export class ReportComponent implements OnInit {
     this.results = '';
   }
 
+  /*Not all fields must be entered by the user, as such we chose to rely on the previously entered report to fill any gaps
+    in the entry. For each field of the report about the store, if an option was not chosen or they selected the unsure option,
+    the report field is updated to contain the information from the most recent previous report on the location. 
+    If there was not a previous report on the location, any fields that are undefined or the user marked as unsure are set to 
+    empty strings.
+  */
   checkPrevReports(data: Store[]) {
     for (let i = 0; i < data.length; i++) {
       if (data[i]['name'] == this.reportStore['name'] && data[i]['latitude'] == this.reportStore['latitude']
@@ -255,23 +280,24 @@ export class ReportComponent implements OnInit {
     return
   }
 
+  /*This function files the report in our database. All current reports are pulled, and the final store interface is populated
+    with user entered (and possibly previous report information). HTTP headers are then set to post the report to our API. 
+    If the post was successful, true is returned, a success alert is triggered, fields are cleared, a message is sent through the 
+    mapService triggering a reset to include the new report, and canShow is reset to false. If the post was unsuccessful, false is 
+    returned and an error alert is triggered.
+  */
   async report() {
-    console.log("Masks Required: " + this.reqMasks)
-    console.log("Masks: " + this.masks)
-    console.log("Yeast: " + this.yeast)
     const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
-    console.log(data)
 
     this.createStore()
     this.checkPrevReports(data)
-    console.log(this.reportStore)
+
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/json'
       })
     }
     const data2 = await this.http.post<boolean>('https://waldofind.azurewebsites.net/store/post', this.reportStore, httpOptions).toPromise();
-    console.log(data2)
     if (data2 == true){
       this.success()
       this.clearFields()
@@ -282,6 +308,7 @@ export class ReportComponent implements OnInit {
     }
   }
 
+  //The Success Alert will prompt the user to either enter more reports or return to the map.
   async success() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -294,7 +321,7 @@ export class ReportComponent implements OnInit {
           text: 'More',
           cssClass: 'secondary',
           handler: () => {
-            console.log('Confirm Cancel');
+            console.log('Confirm More');
           }
         }, {
           text: 'Ok',
@@ -309,6 +336,7 @@ export class ReportComponent implements OnInit {
     await alert.present();
   }
 
+  //The error alert will prompt the user to to check thier entries and try again. 
   async errorOccurred() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

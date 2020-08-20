@@ -6,7 +6,6 @@
   </ion-toolbar>
 </ion-header>
 
-<!--This displays if there is no user logged in-->
 <ion-content [fullscreen]="true">
   <ion-header collapse="condense">
     <ion-toolbar>
@@ -14,52 +13,59 @@
     </ion-toolbar>
   </ion-header>
 
-  <!--This entire form function was copied from Ion framework and 
-    needs to be adjusted and better understood-->
-    <div class="ion-padding">
-      <ion-button size="small" color="light" type="submit" class="ion-no-margin"
-        (click)="backToAccount()">Back</ion-button>
-    </div>
+  <!--A back button is included to take a user back to the account page-->
+  <div class="ion-padding">
+    <ion-button size="small" color="light" type="submit" class="ion-no-margin" (click)="backToAccount()">Back
+    </ion-button>
+  </div>
 
-    <ion-list lines="full" class="ion-no-margin ion-no-padding">
-      <ion-item>
-        <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="first"></ion-input>
-      </ion-item>
+  <!--First, last, username, password, and password confirmation input are listed without any placeholders-->
+  <ion-list lines="full" class="ion-no-margin ion-no-padding">
+    <ion-item>
+      <ion-label position="stacked">First Name <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="first"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="last"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Last Name <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="last"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Username <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="user"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Username <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="user"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Password <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="pass"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Password <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="pass"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Retype Password <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required type="text" [(ngModel)]="pass2"></ion-input>
-      </ion-item>
+    <ion-item>
+      <ion-label position="stacked">Retype Password <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required type="text" [(ngModel)]="pass2"></ion-input>
+    </ion-item>
 
-      <ion-item>
-        <ion-label position="stacked">Address <ion-text color="danger">*</ion-text></ion-label>
-        <ion-input required [(ngModel)]="street1" placeholder="Address Line 1"></ion-input>
-        <ion-input [(ngModel)]="street2" placeholder="Address Line 2"></ion-input>
-        <ion-input required [(ngModel)]="city" placeholder="City"></ion-input>
-        <ion-input required type="text" maxlength="2" minlength="2" [(ngModel)]="state" placeholder="State"></ion-input>
-        <ion-input required type="number" [(ngModel)]="zip" placeholder="Zip Code"></ion-input>
-        <ion-input required [(ngModel)]="country" placeholder="Country"></ion-input>
-      </ion-item>
-    </ion-list>
+    <!--The address fields are listed as on entity with placeholders to dictate what is expected in each input-->
+    <ion-item>
+      <ion-label position="stacked">Address <ion-text color="danger">*</ion-text>
+      </ion-label>
+      <ion-input required [(ngModel)]="street1" placeholder="Address Line 1"></ion-input>
+      <ion-input [(ngModel)]="street2" placeholder="Address Line 2"></ion-input>
+      <ion-input required [(ngModel)]="city" placeholder="City"></ion-input>
+      <ion-input required type="text" maxlength="2" minlength="2" [(ngModel)]="state" placeholder="State"></ion-input>
+      <ion-input required type="number" [(ngModel)]="zip" placeholder="Zip Code"></ion-input>
+      <ion-input required [(ngModel)]="country" placeholder="Country"></ion-input>
+    </ion-item>
+  </ion-list>
 
-    <div class="ion-padding">
-      <ion-button expand="block" type="submit" class="ion-no-margin"
-        (click)="processForm()">Create account</ion-button>
-    </div>
+  <!--The create account button will begin the form processing and check for form errors-->
+  <div class="ion-padding">
+    <ion-button expand="block" type="submit" class="ion-no-margin" (click)="processForm()">Create account</ion-button>
+  </div>
 </ion-content>

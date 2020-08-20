@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 
+//The config interface contains the fields relevant to user logins and records in our SQL database
 export interface Config {
     username: string
     password: string
@@ -9,6 +10,7 @@ export interface Config {
     address: string
 }
 
+//The store interface contains the fields relevant to reports on stores in our SQL database
 export interface Store {
     name: string
     latitude: string
@@ -54,6 +56,7 @@ export interface Loc {
     id: number
 }
 
+//The UserService is used to track accross the application if a user is logged in
 @Injectable({ providedIn: 'root' })
 export class UserService {
     private user = new Subject<any>();
@@ -74,6 +77,7 @@ export class UserService {
 
 }
 
+//The MapService is used to cause a reset in the map page so that it will show the most up to date data
 @Injectable({ providedIn: 'root' })
 export class MapService {
     private map = new Subject<any>();
