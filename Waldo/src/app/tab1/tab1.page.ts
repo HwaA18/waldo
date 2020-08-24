@@ -92,8 +92,7 @@ export class Tab1Page {
     })
   }
 
-  //I only did reroute to tab 3 as a place holder
-  //do you mean tab 2 lol
+  // uses the Routing module to redirect to the Report page
   nextpage() {
     if (this.loggedIn == true) {
       this.route.navigate(['report']);
@@ -108,10 +107,12 @@ export class Tab1Page {
     this.loadMap();
   }
 
+  // Connects to our API hosted on the Azure hosting services
   async setupLocations() {
     const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
     console.log(data)
     this.locationsStocks = data;
+    // This parses the information received from our API
     for (let i = 0; i < data.length; i++) {
       this.newLocations[i] = [data[i]['name'], Number(data[i]['latitude']), Number(data[i]['longitude']), (i + 1)]
     }
@@ -120,7 +121,8 @@ export class Tab1Page {
 
   async loadMap() {
     this.geolocation.getCurrentPosition().then(async (resp) => {
-
+      
+      // This grabs the device's current location 
       this.latitude = resp.coords.latitude;
       this.longitude = resp.coords.longitude;
 
@@ -131,20 +133,16 @@ export class Tab1Page {
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
+      // This uses the method that gets uses reverse Geocoding 
       this.getAddressFromCoords(resp.coords.latitude, resp.coords.longitude);
       await this.setupLocations();
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
-      // var locations = [
-      //   ["Your Location", this.latitude, this.longitude, 3],
-      //   ["Wegmans", 39.875973, -75.5408616, 2],
-      //   ["Costco", 39.8897425, -75.535326, 1]
-      // ];
+
       var locations = this.newLocations;
-
       var infowindow = new google.maps.InfoWindow();
-
       var marker, i;
 
+      // Goes through all of the locations in the created locations array and creates a new Google maps marker
       for (i = 0; i < locations.length; i++) {
         marker = new google.maps.Marker({
           position: new google.maps.LatLng(locations[i][1], locations[i][2]),
@@ -161,10 +159,9 @@ export class Tab1Page {
             }
           }
         }
+
         out = out + '<br>As Of: ' + this.locationsStocks[i]['timestamp']
         console.log(out)
-
-        //var contentString = '<div style="color: #000; font-weight: bold;">' + locations[i][0] + '</div>';
 
         google.maps.event.addListener(marker, 'click', (function (marker, i, out) {
           return function () {
@@ -175,19 +172,13 @@ export class Tab1Page {
         })(marker, i, out));
       }
 
-      /*this.map.addListener('dragend', () => {
-
-        this.latitude = this.map.center.lat();
-        this.longitude = this.map.center.lng();
-
-        this.getAddressFromCoords(this.map.center.lat(), this.map.center.lng())
-      }); */
-
     }).catch((error) => {
       console.log('Error getting location', error);
     });
   }
 
+  // This method uses Ionic Geocoder API to look up the address of a given location. 
+  // This was originally going to be used but is since deprecated.
   getAddressFromCoords(lattitude, longitude) {
     console.log("getAddressFromCoords " + lattitude + " " + longitude);
     let options: NativeGeocoderOptions = {
@@ -216,6 +207,7 @@ export class Tab1Page {
 
   }
 
+  // Creates a dialogue using Ionic's alert box notifying the user that they must be logged in. 
   async needLogin() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
