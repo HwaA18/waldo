@@ -103,7 +103,7 @@ export class ReportComponent implements OnInit {
   selectedLoc: any;
   linkToPhoto: any;
 
-  /*Establishes access the router, location services, HTTPLCient, alertController, our userService, and the mapService 
+  /*Establishes access to the router, location services, HTTPCient, alertController, our userService, and the mapService 
     that resets the map when a report is filed. Within the constructor, the rules of the subscription to our userService are set. 
     The userService information varies based on whether a new account is created or an existing account is used, and 
     is parsed accordingly.

@@ -1,4 +1,4 @@
-<!--This displays if there is no user logged in-->
+<!--This header and content is used if there is a user logged in-->
 <ion-header *ngIf="loggedIn" [translucent]="true">
   <ion-toolbar>
     <ion-title>
@@ -7,6 +7,8 @@
   </ion-toolbar>
 </ion-header>
 
+<!--When a user is logged in, the user's first name, last name, address, and a 
+  log out button are displayed-->
 <ion-content *ngIf="loggedIn" [fullscreen]="true">
   <p><b>First Name: </b>{{firstName}}</p>
   <p><b>Last Name: </b>{{lastName}}</p>
@@ -17,7 +19,7 @@
   </div>
 </ion-content>
 
-<!--This displays when someone is not logged in-->
+<!--This header and content is used when someone is not logged in-->
 <ion-header *ngIf="loggedIn === false" [translucent]="true">
   <ion-toolbar>
     <ion-title>
@@ -26,10 +28,12 @@
   </ion-toolbar>
 </ion-header>
 
+<!--the user is provided a space to enter their username and password to log in. There is also a 
+  link provided to allow a user to register for a new account. There is a button to then log in with
+  username and password provided.-->
 <ion-content *ngIf="loggedIn === false" [fullscreen]="true">
   <ion-card>
     <ion-card-header>
-      <!--ion-card-subtitle>Destination</ion-card-subtitle-->
       <ion-card-title>Log In Here!</ion-card-title>
     </ion-card-header>
     <ion-card-content>

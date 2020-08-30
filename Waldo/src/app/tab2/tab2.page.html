@@ -13,53 +13,67 @@
     </ion-toolbar>
   </ion-header>
 
-<ion-searchbar (ionInput)="getResults($event)" autocorrect="on"></ion-searchbar>
+  <!--The searchbar lets users enter information so that they may look up a specific store-->
+  <ion-searchbar (ionInput)="getResults($event)" autocorrect="on"></ion-searchbar>
 
-<ion-list *ngIf="canShow == false">
-  <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small" (click)="showResults($event, item)">
-    {{ item['name'] }} <br> {{ item['formatted_address'] }}
-  </ion-button>
-</ion-list> 
+  <!--Each of the results returned by the Google Maps API is displayed with the name and address 
+    on a button as long as no entry has been selected-->
+  <ion-list *ngIf="canShow == false">
+    <ion-button expand="full" ion-item *ngFor="let item of results" fill="clear" size="small"
+      (click)="showResults($event, item)">
+      {{ item['name'] }} <br> {{ item['formatted_address'] }}
+    </ion-button>
+  </ion-list>
 
-<ion-card *ngIf="canShow">
-  <img id="id_img" src="{{linkToPhoto}}" alt="img" />
-  <ion-card-subtitle class="ion-padding"> {{ selectedLoc['formatted_address'] }} </ion-card-subtitle>
-  <ion-card-title class="ion-padding"> {{ selectedLoc['name'] }} </ion-card-title>
-  <ion-card-content class="ion-padding">
-    <p *ngIf="storeInfo == blank">No Data Has Been Collected For This Location Yet</p>
-    <p *ngIf="storeInfo['masksRequired'] != ''"><strong>Are Masks Required?</strong> {{storeInfo['masksRequired']}}</p>
-    <p *ngIf="storeInfo['masks'] != ''"><strong>Masks:</strong> {{storeInfo['masks']}}</p>
-    <p *ngIf="storeInfo['gloves'] != ''"><strong>Gloves:</strong> {{storeInfo['gloves']}}</p>
-    <p *ngIf="storeInfo['handSanitizer'] != ''"><strong>Hand Sanitizer:</strong> {{storeInfo['handSanitizer']}}</p>
-    <p *ngIf="storeInfo['paperTowels'] != ''"><strong>Paper Towels:</strong> {{storeInfo['paperTowels']}}</p>
-    <p *ngIf="storeInfo['toiletPaper'] != ''"><strong>Toilet Paper:</strong> {{storeInfo['toiletPaper']}}</p>
-    <p *ngIf="storeInfo['liquidSoap'] != ''"><strong>Liquid Soap:</strong> {{storeInfo['liquidSoap']}}</p>
-    <p *ngIf="storeInfo['barSoap'] != ''"><strong>Bar Soap:</strong> {{storeInfo['barSoap']}}</p>
-    <p *ngIf="storeInfo['cleaningWipes'] != ''"><strong>Cleaning Wipes:</strong> {{storeInfo['cleaningWipes']}}</p>
-    <p *ngIf="storeInfo['aerosolDisinfectant'] != ''"><strong>Aerosol Disinfectants:</strong> {{storeInfo['aerosolDisinfectants']}}</p>
-    <p *ngIf="storeInfo['bleach'] != ''"><strong>Bleach:</strong> {{storeInfo['bleach']}}</p>
-    <p *ngIf="storeInfo['flushableWipes'] != ''"><strong>Flushable Wipes:</strong> {{storeInfo['flushableWipes']}}</p>
-    <p *ngIf="storeInfo['tissues'] != ''"><strong>Tissues:</strong> {{storeInfo['tissues']}}</p>
-    <p *ngIf="storeInfo['diapers'] != ''"><strong>Diapers:</strong> {{storeInfo['diapers']}}</p>
-    <p *ngIf="storeInfo['waterFilters'] != ''"><strong>Water Filters:</strong> {{storeInfo['waterFilters']}}</p>
-    <p *ngIf="storeInfo['coldRemedies'] != ''"><strong>Cold Remedies:</strong> {{storeInfo['coldRemedies']}}</p>
-    <p *ngIf="storeInfo['coughRemedies'] != ''"><strong>Cough Remedies:</strong> {{storeInfo['coughRemedies']}}</p>
-    <p *ngIf="storeInfo['rubbingAlcohol'] != ''"><strong>Rubbing Alcohol:</strong> {{storeInfo['rubbingAlcohol']}}</p>
-    <p *ngIf="storeInfo['antiseptic'] != ''"><strong>Antiseptic:</strong> {{storeInfo['antiseptic']}}</p>
-    <p *ngIf="storeInfo['thermometer'] != ''"><strong>Thermometer:</strong> {{storeInfo['thermometer']}}</p>
-    <p *ngIf="storeInfo['firstAidKit'] != ''"><strong>First Aid Kits:</strong> {{storeInfo['firstAidKit']}}</p>
-    <p *ngIf="storeInfo['waterBottles'] != ''"><strong>Water Bottles:</strong> {{storeInfo['waterBottles']}}</p>
-    <p *ngIf="storeInfo['eggs'] != ''"><strong>Eggs:</strong> {{storeInfo['eggs']}}</p>
-    <p *ngIf="storeInfo['milk'] != ''"><strong>Milk:</strong> {{storeInfo['milk']}}</p>
-    <p *ngIf="storeInfo['bread'] != ''"><strong>Bread:</strong> {{storeInfo['bread']}}</p>
-    <p *ngIf="storeInfo['beef'] != ''"><strong>Beef:</strong> {{storeInfo['beef']}}</p>
-    <p *ngIf="storeInfo['chicken'] != ''"><strong>Chicken:</strong> {{storeInfo['chicken']}}</p>
-    <p *ngIf="storeInfo['pork'] != ''"><strong>Pork:</strong> {{storeInfo['pork']}}</p>
-    <p *ngIf="storeInfo['yeast'] != ''"><strong>Yeast:</strong> {{storeInfo['yeast']}}</p>
-    <br>
-    <p *ngIf="storeInfo['reportedBy'] != ''"><strong>The Most Recent Data Has Been Reported By:</strong> {{storeInfo['reportedBy']}}</p>
-    <p *ngIf="storeInfo['timestamp'] != ''"><strong>The Most Recently Updated At:</strong> {{storeInfo['timestamp']}}</p>
-  </ion-card-content>
-</ion-card>
+  <!--When an entry from the returned list is selected, the image Google has associated with the location, the name and
+    address of the location, and any information we have gathered from reports about each of the products on the form is 
+    displayed. If no information is available, nothing is displayed for that product.-->
+  <ion-card *ngIf="canShow">
+    <img id="id_img" src="{{linkToPhoto}}" alt="img" />
+    <ion-card-subtitle class="ion-padding"> {{ selectedLoc['formatted_address'] }} </ion-card-subtitle>
+    <ion-card-title class="ion-padding"> {{ selectedLoc['name'] }} </ion-card-title>
+    <ion-card-content class="ion-padding">
+      <p *ngIf="storeInfo == blank">No Data Has Been Collected For This Location Yet</p>
+      <p *ngIf="storeInfo['masksRequired'] != ''"><strong>Are Masks Required?</strong> {{storeInfo['masksRequired']}}
+      </p>
+      <p *ngIf="storeInfo['masks'] != ''"><strong>Masks:</strong> {{storeInfo['masks']}}</p>
+      <p *ngIf="storeInfo['gloves'] != ''"><strong>Gloves:</strong> {{storeInfo['gloves']}}</p>
+      <p *ngIf="storeInfo['handSanitizer'] != ''"><strong>Hand Sanitizer:</strong> {{storeInfo['handSanitizer']}}</p>
+      <p *ngIf="storeInfo['paperTowels'] != ''"><strong>Paper Towels:</strong> {{storeInfo['paperTowels']}}</p>
+      <p *ngIf="storeInfo['toiletPaper'] != ''"><strong>Toilet Paper:</strong> {{storeInfo['toiletPaper']}}</p>
+      <p *ngIf="storeInfo['liquidSoap'] != ''"><strong>Liquid Soap:</strong> {{storeInfo['liquidSoap']}}</p>
+      <p *ngIf="storeInfo['barSoap'] != ''"><strong>Bar Soap:</strong> {{storeInfo['barSoap']}}</p>
+      <p *ngIf="storeInfo['cleaningWipes'] != ''"><strong>Cleaning Wipes:</strong> {{storeInfo['cleaningWipes']}}</p>
+      <p *ngIf="storeInfo['aerosolDisinfectant'] != ''"><strong>Aerosol Disinfectants:</strong>
+        {{storeInfo['aerosolDisinfectants']}}</p>
+      <p *ngIf="storeInfo['bleach'] != ''"><strong>Bleach:</strong> {{storeInfo['bleach']}}</p>
+      <p *ngIf="storeInfo['flushableWipes'] != ''"><strong>Flushable Wipes:</strong> {{storeInfo['flushableWipes']}}</p>
+      <p *ngIf="storeInfo['tissues'] != ''"><strong>Tissues:</strong> {{storeInfo['tissues']}}</p>
+      <p *ngIf="storeInfo['diapers'] != ''"><strong>Diapers:</strong> {{storeInfo['diapers']}}</p>
+      <p *ngIf="storeInfo['waterFilters'] != ''"><strong>Water Filters:</strong> {{storeInfo['waterFilters']}}</p>
+      <p *ngIf="storeInfo['coldRemedies'] != ''"><strong>Cold Remedies:</strong> {{storeInfo['coldRemedies']}}</p>
+      <p *ngIf="storeInfo['coughRemedies'] != ''"><strong>Cough Remedies:</strong> {{storeInfo['coughRemedies']}}</p>
+      <p *ngIf="storeInfo['rubbingAlcohol'] != ''"><strong>Rubbing Alcohol:</strong> {{storeInfo['rubbingAlcohol']}}</p>
+      <p *ngIf="storeInfo['antiseptic'] != ''"><strong>Antiseptic:</strong> {{storeInfo['antiseptic']}}</p>
+      <p *ngIf="storeInfo['thermometer'] != ''"><strong>Thermometer:</strong> {{storeInfo['thermometer']}}</p>
+      <p *ngIf="storeInfo['firstAidKit'] != ''"><strong>First Aid Kits:</strong> {{storeInfo['firstAidKit']}}</p>
+      <p *ngIf="storeInfo['waterBottles'] != ''"><strong>Water Bottles:</strong> {{storeInfo['waterBottles']}}</p>
+      <p *ngIf="storeInfo['eggs'] != ''"><strong>Eggs:</strong> {{storeInfo['eggs']}}</p>
+      <p *ngIf="storeInfo['milk'] != ''"><strong>Milk:</strong> {{storeInfo['milk']}}</p>
+      <p *ngIf="storeInfo['bread'] != ''"><strong>Bread:</strong> {{storeInfo['bread']}}</p>
+      <p *ngIf="storeInfo['beef'] != ''"><strong>Beef:</strong> {{storeInfo['beef']}}</p>
+      <p *ngIf="storeInfo['chicken'] != ''"><strong>Chicken:</strong> {{storeInfo['chicken']}}</p>
+      <p *ngIf="storeInfo['pork'] != ''"><strong>Pork:</strong> {{storeInfo['pork']}}</p>
+      <p *ngIf="storeInfo['yeast'] != ''"><strong>Yeast:</strong> {{storeInfo['yeast']}}</p>
+      <br>
+
+      <!--We also display who sent in the most recent information about the store and when they reported it in order to hold 
+        users accountable for the information they share-->
+      <p *ngIf="storeInfo['reportedBy'] != ''"><strong>The Most Recent Data Has Been Reported By:</strong>
+        {{storeInfo['reportedBy']}}</p>
+      <p *ngIf="storeInfo['timestamp'] != ''"><strong>The Most Recently Updated At:</strong> {{storeInfo['timestamp']}}
+      </p>
+    </ion-card-content>
+  </ion-card>
 
 </ion-content>

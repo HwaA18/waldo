@@ -11,16 +11,26 @@ import { Config } from '../_services/user.service';
   styleUrls: ['./tab3.page.scss']
 })
 export class Tab3Page implements OnInit {
-  submitted: string = 'Your Form Has Been Submitted'
-  firstName: string = 'Starter First Name'
-  lastName: string = 'Starter Last Name'
-  address: string = 'Starter Address'
+
+  //Boolean to dictate whether a user is logged in
   loggedIn: boolean; 
+
+  //Fields for the username and password populated by the user
   username: string = ''
   password: string = ''
 
+  //Fields that will hold the information for the user when verified, currently has filler information
+  firstName: string = 'Starter First Name'
+  lastName: string = 'Starter Last Name'
+  address: string = 'Starter Address'
+
+  //The subscription connects the registration form to our UserService so that it can notify when a user is created and logs in
   userSubscription: Subscription;
 
+  /*Establishes access to HTTPCient, alertController, and our userService. Within the constructor, the rules of the subscription 
+    to our userService are set. The userService information varies based on whether a new account is created or an existing 
+    account is used, and is parsed accordingly.
+  */
   constructor(private userService: UserService, public alertController: AlertController, private http: HttpClient) {
     this.userSubscription = this.userService.onStatus().subscribe(status => {
       if (status[0] == "account"){
@@ -36,40 +46,14 @@ export class Tab3Page implements OnInit {
     })
   }
 
-  processForm(): void {
-    console.log(this.submitted)
-    console.log(this.firstName + " " + this.lastName)
-    if (this.firstName && this.lastName){
-      this.logIn()
-    } else {
-      this.missingLogin()
-    }
-  }
-
+  /*Triggered when the user hits the log in button. First, we check that the username and password fields are populated. 
+    If not, an alert is triggered. If they are populated, the user data we have in our database is gathered. We then search
+    through our user data to see if there is a user with the entered username AND password. If there is not a user with this
+    information an alert is triggered. If there is such a user, a message is sent to our UserService that a  user is logged in.
+  */
   async logIn() {
-    console.log("Recorded from Login:")
-    console.log(this.username + " " + this.password)
-    //Still experimenting with how to display the info that comes back from the server
-    //this.http.get('https://localhost:5001/user').subscribe(
-      //(data: Config[]) => this.api = data
-    //)
-    //this.http.get('https://localhost:5001/user/get/1',{responseType:'text'}).subscribe(
-      //(data: string) => this.api2 = data
-    //)
-
-    const data: Config[] = await this.http.get<Config[]>('https://waldofind.azurewebsites.net/user').toPromise();
-    console.log(data)
-    
-    // const httpOptions = {
-    //   headers: new HttpHeaders({
-    //     'Content-Type' : 'application/json'
-    //   })
-    // }
-
-    // const data2 = await this.http.post<boolean>('https://localhost:5001/user/post', {"username":"asamee","password":"test5"}, httpOptions).toPromise();
-    // console.log(data2)
-    
     if (this.username && this.password){
+      const data: Config[] = await this.http.get<Config[]>('https://waldofind.azurewebsites.net/user').toPromise();
       var match = false;
       var count = 0;
       while (!match && count < data.length){
@@ -82,7 +66,6 @@ export class Tab3Page implements OnInit {
         count = count + 1;
       }
       if (match){
-        console.log("Match " + this.username)
         this.userService.sendStatus(["account", true, this.username]);
       } else {
         this.incorrectCredentials()
@@ -93,6 +76,7 @@ export class Tab3Page implements OnInit {
     }
   }
 
+  //Logging out will clear all the fields associated with a user and updates the UserService status
   logOut(): void {
     this.username = ''
     this.password = ''
@@ -102,16 +86,14 @@ export class Tab3Page implements OnInit {
     this.userService.sendStatus(["account", false, this.username]);
   }
 
+  //OnInit the page will gather the log in status of a user
   ngOnInit() : void {
     this.userService.getStatus();
-    console.log(this.loggedIn)
   }
 
-
-
-
-
   //ALERT BOXES
+
+  //If the user did not fill in the username and/or password field and attempts to log in, this alert triggers
   async missingLogin() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',
@@ -138,7 +120,7 @@ export class Tab3Page implements OnInit {
     await alert.present();
   }
 
-  //This is an alert box for when someone doesn't fill out the correct fields.
+  //This is an alert box for when a user does not provide correct credentials
   async incorrectCredentials() {
     const alert = await this.alertController.create({
       cssClass: 'my-custom-class',

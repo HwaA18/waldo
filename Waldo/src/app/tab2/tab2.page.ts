@@ -11,15 +11,21 @@ import { Store } from '../_services/index';
 })
 export class Tab2Page {
 
-  constructor(private http: HttpClient, private geolocation: Geolocation) {}
-
+  //For the users current coordinates
   latitude: number;
   longitude: number;
+
+  //The results of the user's search when sent to the Google Maps API
   results:any = [];
+
+  //This variable is toggled when results are selected, and will determine if result information is displayed
   canShow: boolean = false;
+
+  //The location the user chooses to investigate and the link to the photo associated with it on Google
   selectedLoc: any;
   linkToPhoto: any;
 
+  //A blank Store to be used as a placeholder
   blank: Store = {
     name: '',
     latitude: '',
@@ -58,8 +64,14 @@ export class Tab2Page {
     timestamp: ''
   }
 
+  //this variable is used to get product availabilities for the selected store, originally set to blank
   storeInfo: Store = this.blank;
 
+  //Sets up the second tab to use HTTPClient and Geolocation for the Google Maps elements
+  constructor(private http: HttpClient, private geolocation: Geolocation) {}
+
+  //This function gathers the results of the search users completed from the Google Maps API
+  //Will get the users current lat and long, and then search using the entered keywords and coordinates
   public getResults(ev: any) {
     let val: String = ev.target.value;
 
@@ -74,24 +86,42 @@ export class Tab2Page {
     });
 
     this.searchPlaces(this.latitude, this.longitude, val);
-    console.log(this.results);
-    //return this.results;
-
   }
 
+  //Using a proxy, we assemble a query with the user's lat, long, and search to get locations from the Google Maps API and fill the results array
   async searchPlaces(lat, long, input) {
-    //const data = await this.http.get('https://localhost:5001/user/', {responseType: 'json'}).toPromise();
-    //console.log(data[0]['username'])
     const proxyURL = "https://cors-anywhere.herokuapp.com/";
     var placesString = 'https://maps.googleapis.com/maps/api/place/textsearch/json?query=' + input +'&location=' + lat +',' + long + '&key=AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8';
     let httpString = proxyURL.concat(placesString);
-    console.log(httpString);
     const data = await this.http.get(httpString, {responseType: 'json'}).toPromise();
-    //console.log(data['results'][0]['formatted_address']);
     this.results = data['results'];
     return data['results'];
   }
 
+  /*When the user selects a location, this is triggered showing information about the selected location. 
+    The show results variable is set to true, the selected location is stored, the location's Google Photo is obtained,
+    and the current reports we have stored in our database are pulled to search for any information on the selected location.
+  */ 
+  public async showResults(ev: any, item) {
+    this.canShow = true;
+    this.selectedLoc = item;
+
+    this.getPhoto();
+    const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
+    this.locateReport(data)
+  }
+
+  //We assemble a query to the Google Maps API to get the photo associated with the location on Google
+  public getPhoto() {
+    var placesString = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + this.selectedLoc['photos'][0]['photo_reference'] + '&key=AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8';
+    let httpString = placesString; 
+    this.linkToPhoto = httpString;
+
+    return httpString;
+  }
+
+  //Searches through the reports in our database to determine if one has been filed for the selected location
+  //If we have a matching Store on file it will be populated in storeInfo or storeInfo will be blank
   locateReport(data: Store[]){
     for (let i = 0; i < data.length; i++) {
       if (data[i]['name'] == this.selectedLoc['name'] && data[i]['latitude'] == this.selectedLoc['geometry']['location']['lat'].toString()
@@ -101,27 +131,5 @@ export class Tab2Page {
       }
     }
     this.storeInfo = this.blank
-  }
-
-  public async showResults(ev: any, item) {
-    this.canShow = true;
-    this.selectedLoc = item;
-
-    this.getPhoto();
-    // this.info = 'Please confirm that you supplied the correct information, or click \"<strong>Cancel</strong>\" to continue editing.' + 
-    //     '<br><br><strong>First Name:</strong> ' + this.selectedLoc['name'] + '<br><strong>Last Name:</strong> ' + this.selectedLoc['name'] + 
-    //     '<br><strong>Userame:</strong> ' + this.selectedLoc['name'] + '<br><strong>Address:</strong> ' + this.selectedLoc['formatted_address']
-    const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
-    console.log(data)
-    this.locateReport(data)
-  }
-
-  public getPhoto() {
-    var placesString = 'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=' + this.selectedLoc['photos'][0]['photo_reference'] + '&key=AIzaSyDN6CczC9Jy5lKDlw8ET2Z_cpjbLjTf5k8';
-    let httpString = placesString //proxyURL.concat(placesString); 
-    console.log(httpString);
-    this.linkToPhoto = httpString;
-
-    return httpString;
   }
 }

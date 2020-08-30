@@ -110,13 +110,13 @@ export class Tab1Page {
   // Connects to our API hosted on the Azure hosting services
   async setupLocations() {
     const data: Store[] = await this.http.get<Store[]>('https://waldofind.azurewebsites.net/store').toPromise();
-    console.log(data)
+
     this.locationsStocks = data;
     // This parses the information received from our API
     for (let i = 0; i < data.length; i++) {
       this.newLocations[i] = [data[i]['name'], Number(data[i]['latitude']), Number(data[i]['longitude']), (i + 1)]
     }
-    console.log(this.newLocations)
+
   }
 
   async loadMap() {
@@ -161,7 +161,6 @@ export class Tab1Page {
         }
 
         out = out + '<br>As Of: ' + this.locationsStocks[i]['timestamp']
-        console.log(out)
 
         google.maps.event.addListener(marker, 'click', (function (marker, i, out) {
           return function () {
@@ -180,7 +179,6 @@ export class Tab1Page {
   // This method uses Ionic Geocoder API to look up the address of a given location. 
   // This was originally going to be used but is since deprecated.
   getAddressFromCoords(lattitude, longitude) {
-    console.log("getAddressFromCoords " + lattitude + " " + longitude);
     let options: NativeGeocoderOptions = {
       useLocale: true,
       maxResults: 5
