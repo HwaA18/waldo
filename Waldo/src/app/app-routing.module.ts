@@ -8,6 +8,7 @@ const routes: Routes = [
     path: '',
     loadChildren: () => import('./tabs/tabs.module').then(m => m.TabsPageModule)
   },
+  //Added routes to the registration and report pages so the tabs can reach them
   {
     path: 'registration',
     component: RegistrationComponent
